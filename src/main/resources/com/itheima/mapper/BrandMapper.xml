@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.BrandMapper">
+    <!--新增品牌-->
+    <insert id="insert">
+        insert into tb_brand(name, first_letter, logo, create_time, update_time)
+        VALUES (#{name}, #{firstLetter}, #{logo}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--修改品牌数据-->
+    <update id="update">
+        update tb_brand
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="firstLetter != null and firstLetter != ''">
+                first_letter = #{firstLetter},
+            </if>
+            <if test="logo != null and logo != ''">
+                logo = #{logo},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--删除品牌-->
+    <delete id="deleteById">
+        delete
+        from tb_brand
+        where id = #{id}
+    </delete>
+
+    <!--根据ID查询-->
+    <select id="getById" resultType="com.itheima.pojo.Brand">
+        select id, name, first_letter, logo, create_time, update_time
+        from tb_brand
+        where id = #{id}
+    </select>
+
+    <!--条件查询-->
+    <select id="list" resultType="com.itheima.pojo.Brand">
+        select * from tb_brand
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%',#{name},'%')
+            </if>
+            <if test="firstLetter != null and firstLetter != ''">
+                and first_letter = #{firstLetter}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+</mapper>

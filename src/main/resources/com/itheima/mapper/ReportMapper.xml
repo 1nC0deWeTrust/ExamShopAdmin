@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.mapper.ReportMapper">
+    <select id="getProductStatus" resultType="java.util.Map">
+        select case verify_status
+                   when 1 then '审核通过'
+                   when 2 then '审核未通过'
+                   else '未审核'
+                   end  as name,
+               count(*) as value
+        from tb_product
+        group by verify_status;
+    </select>
+    <select id="getProductUpOrDown" resultType="java.util.Map">
+        select case publish_status
+                   when 0 then '未上架'
+                   when 1 then '已上架'
+                   end  as name,
+               count(*) as value
+        from tb_product
+        group by publish_status;
+    </select>
+</mapper>
